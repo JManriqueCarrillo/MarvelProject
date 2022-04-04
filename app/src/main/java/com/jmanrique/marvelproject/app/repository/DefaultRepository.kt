@@ -1,6 +1,6 @@
 package com.jmanrique.marvelproject.app.repository
 
-import com.jmanrique.marvelproject.data.network.model.base.BaseResponse
+import com.jmanrique.marvelproject.data.network.model.characters.CharacterDataWrapper
 import com.jmanrique.marvelproject.data.network.repository.MarvelRemoteStoreImpl
 import com.jmanrique.marvelproject.domain.repository.MarvelRepository
 import io.reactivex.rxjava3.core.Single
@@ -11,5 +11,5 @@ class DefaultRepository @Inject constructor(
     private val remoteStore: MarvelRemoteStoreImpl
 ) : MarvelRepository {
 
-    override fun getCharacters(): Single<BaseResponse> = remoteStore.getCharacters()
+    override fun getCharacters(): Single<CharacterDataWrapper> = remoteStore.getCharacters()
 }

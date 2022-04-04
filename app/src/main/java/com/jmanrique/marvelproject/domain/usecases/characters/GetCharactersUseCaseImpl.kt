@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetCharactersUseCaseImpl @Inject constructor(
     private val marvelRepository: MarvelRepository
 ): GetCharactersUseCase {
-    override fun execute(params: Void?): Single<CharacterDataWrapper> {
-        return marvelRepository.getCharacters()
+    override fun execute(params: Int): Single<CharacterDataWrapper> {
+        return marvelRepository.getCharacters(params)
     }
 }

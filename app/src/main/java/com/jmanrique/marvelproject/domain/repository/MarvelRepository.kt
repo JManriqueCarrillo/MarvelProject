@@ -4,5 +4,5 @@ import com.jmanrique.marvelproject.data.network.model.characters.CharacterDataWr
 import io.reactivex.rxjava3.core.Single
 
 interface MarvelRepository {
-    fun getCharacters(): Single<CharacterDataWrapper>
+    fun getCharacters(offset: Int): Single<CharacterDataWrapper>
 }

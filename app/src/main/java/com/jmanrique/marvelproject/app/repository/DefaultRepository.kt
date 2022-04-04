@@ -11,5 +11,5 @@ class DefaultRepository @Inject constructor(
     private val remoteStore: MarvelRemoteStoreImpl
 ) : MarvelRepository {
 
-    override fun getCharacters(): Single<CharacterDataWrapper> = remoteStore.getCharacters()
+    override fun getCharacters(offset: Int): Single<CharacterDataWrapper> = remoteStore.getCharacters(offset)
 }

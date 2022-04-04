@@ -19,12 +19,12 @@ class CharacterListViewModel @Inject constructor(
     val showLoading = SingleLiveEvent<Boolean>().apply { value = false }
     val characterList = MutableLiveData<CharacterDataContainer>()
 
-    val currentPage = 0
+    val currentOffset = 0
 
 
     fun getCharactersList() {
         showLoading.value = true
-        subscribe(getCharactersUseCase.execute(null), {
+        subscribe(getCharactersUseCase.execute(currentOffset), {
             Log.d("CHARACTERS", it.toString())
             characterList.value = it.data!!
             showLoading.value = false

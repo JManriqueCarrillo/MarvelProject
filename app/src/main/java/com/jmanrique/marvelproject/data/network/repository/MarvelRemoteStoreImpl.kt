@@ -10,5 +10,5 @@ class MarvelRemoteStoreImpl @Inject constructor(
     private val marvelAPI: MarvelAPI
 ) : DataStore {
 
-    override fun getCharacters(): Single<CharacterDataWrapper> = marvelAPI.getCharacters()
+    override fun getCharacters(offset: Int): Single<CharacterDataWrapper> = marvelAPI.getCharacters(offset.toString())
 }

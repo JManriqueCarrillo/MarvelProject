@@ -52,7 +52,7 @@ android {
             buildConfigField "Boolean", 'INT', 'false'
             buildConfigField "Boolean", 'PRO', 'false'
 
-            buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com:443/v1/public/"'
+            buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com/v1/public/"'
             applicationIdSuffix = '.dev'
             resValue "string", "app_name", "MarvelTest - DEV"
         }

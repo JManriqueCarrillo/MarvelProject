@@ -11,9 +11,6 @@ abstract class BaseActivity<DB> : AppCompatActivity() where DB : ViewDataBinding
 
     lateinit var binding: DB
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)

@@ -10,10 +10,12 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
-): BaseViewModel(){
+) : BaseViewModel() {
 
-    fun getCharactersList(){
-        subscribe(getCharactersUseCase.execute(null),{
+    fun getCharactersList() {
+        subscribe(getCharactersUseCase.execute(null), {
+            Log.d("CHARACTERS", it.toString())
+        }, onError = {
             Log.d("CHARACTERS", it.toString())
         })
     }

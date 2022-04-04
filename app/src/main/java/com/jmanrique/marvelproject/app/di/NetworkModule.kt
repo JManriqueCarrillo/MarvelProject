@@ -1,6 +1,7 @@
 package com.jmanrique.marvelproject.app.di
 
 import com.jmanrique.marvelproject.BuildConfig
+import com.jmanrique.marvelproject.data.network.APIConstants
 import com.jmanrique.marvelproject.data.network.MarvelAPI
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.sql.Timestamp
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -40,9 +42,10 @@ class NetworkModule {
                 val request = chain.request().newBuilder()
                 val originalHttpUrl = chain.request().url
                 val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("ts", "1")
-                    .addQueryParameter("api_key", "f699b3a0bac92c3e5de7514188126be3")
-                    .addQueryParameter("hash", "05d2e09a41fd55ef75c9824dd15336bc")
+                    .addQueryParameter("ts", APIConstants.ts)
+                    .addQueryParameter("apikey", APIConstants.API_KEY)
+                    .addQueryParameter("hash", APIConstants.hash())
+                    .addQueryParameter("limit", APIConstants.limit)
                     .build()
                 request.url(url)
                 val response = chain.proceed(request.build())
@@ -61,5 +64,6 @@ class NetworkModule {
 
     @Provides
     fun providesApi(retrofit: Retrofit): MarvelAPI = retrofit.create(MarvelAPI::class.java)
+
 
 }

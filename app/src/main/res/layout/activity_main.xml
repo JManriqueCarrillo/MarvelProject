@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.jmanrique.marvelproject.app.ui.main.MainViewModel" />
+            type="com.jmanrique.marvelproject.app.ui.main.CharacterListViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -16,28 +16,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.ui.main.MainActivity">
+        tools:context=".app.ui.main.CharacterListActivity">
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/character_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:visibility="@{viewModel.showLoading == true ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/nav_graph" />
+        <TextView
+            android:id="@+id/layout_no_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="No items found"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="@{viewModel.showEmpty == true ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

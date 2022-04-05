@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jmanrique.marvelproject.app.ui.base.BaseActivity
-import com.jmanrique.marvelproject.data.network.model.characters.Character
+import com.jmanrique.marvelproject.data.network.APIConstants
 import com.jmanrique.marvelproject.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -16,12 +15,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
 
+    val OFFSET_VALUE = APIConstants.limit.toInt()
     private val viewModel: CharacterListViewModel by viewModels()
 
     @Inject
     lateinit var characterListAdapter: CharacterListAdapter
 
     private val layoutManager = GridLayoutManager(this, 2)
+    private var flagLoading = false
+    private var flagScrollListener = true
 
     override fun bindViewToModel() {
         binding.viewModel = viewModel
@@ -29,24 +31,43 @@ class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initViews()
+        initObservers()
+        initListeners()
+        viewModel.getCharactersList()
+    }
 
+    private fun initViews() {
+        binding.characterList.layoutManager = layoutManager
+        binding.characterList.adapter = characterListAdapter
+    }
+
+    private fun initObservers() {
+        viewModel.characterList.observe(this) {
+            if (it.isEmpty()) {
+                flagScrollListener = false
+            } else {
+                characterListAdapter.data.addAll(it)
+                characterListAdapter.notifyDataSetChanged()
+            }
+            flagLoading = false
+        }
+    }
+
+    private fun initListeners() {
         characterListAdapter.onItemClick = {
             Toast.makeText(this, "Clicked ${it.name}", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.getCharactersList()
-
-        viewModel.characterList.observe(this) {
-            characterListAdapter.data = it
-            binding.characterList.layoutManager = layoutManager
-            binding.characterList.adapter = characterListAdapter
-        }
-
-        binding.characterList.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+        binding.characterList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if(layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount-1){
-
+                if (flagScrollListener &&
+                    layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1 &&
+                    !flagLoading
+                ) {
+                    flagLoading = true
+                    viewModel.addMoreElements(OFFSET_VALUE)
                 }
             }
         })

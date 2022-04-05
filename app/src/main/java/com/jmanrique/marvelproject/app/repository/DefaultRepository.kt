@@ -12,4 +12,5 @@ class DefaultRepository @Inject constructor(
 ) : MarvelRepository {
 
     override fun getCharacters(offset: Int): Single<CharacterDataWrapper> = remoteStore.getCharacters(offset)
+    override fun getCharactersStartWithText(search: String): Single<CharacterDataWrapper> = remoteStore.getCharactersStartWithText(search)
 }

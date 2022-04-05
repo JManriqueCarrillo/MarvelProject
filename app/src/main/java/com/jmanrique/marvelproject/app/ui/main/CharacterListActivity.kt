@@ -2,18 +2,22 @@ package com.jmanrique.marvelproject.app.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jmanrique.marvelproject.R
 import com.jmanrique.marvelproject.app.ui.base.BaseActivity
 import com.jmanrique.marvelproject.data.network.APIConstants
 import com.jmanrique.marvelproject.databinding.ActivityMainBinding
+import com.jmanrique.marvelproject.utils.extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
+class CharacterListActivity : BaseActivity<ActivityMainBinding>(), SearchView.OnQueryTextListener {
 
     val OFFSET_VALUE = APIConstants.limit.toInt()
     private val viewModel: CharacterListViewModel by viewModels()
@@ -25,6 +29,8 @@ class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
     private var flagLoading = false
     private var flagScrollListener = true
 
+    private lateinit var searchTerm: String
+
     override fun bindViewToModel() {
         binding.viewModel = viewModel
     }
@@ -34,7 +40,7 @@ class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
         initViews()
         initObservers()
         initListeners()
-        viewModel.getCharactersList()
+        callAPI()
     }
 
     private fun initViews() {
@@ -73,6 +79,52 @@ class CharacterListActivity : BaseActivity<ActivityMainBinding>() {
         })
     }
 
+    private fun callAPI() {
+        viewModel.getCharactersList()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+        val search = menu?.findItem(R.id.menuSearch)
+        val searchView = search?.actionView as androidx.appcompat.widget.SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
+        return true
+    }
+
     override fun inflate(layoutInflater: LayoutInflater): ActivityMainBinding =
         ActivityMainBinding.inflate(layoutInflater)
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        hideKeyboard()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) searchTerm = newText
+        else restartList()
+
+        if (searchTerm.isNotEmpty()) searchByText()
+        else restartList()
+
+        return true
+    }
+
+    private fun searchByText() {
+        clearList()
+        viewModel.getCharactersStartWithText(searchTerm)
+        flagScrollListener = false
+    }
+
+    private fun restartList() {
+        flagScrollListener = true
+        clearList()
+        callAPI()
+    }
+
+    private fun clearList() {
+        characterListAdapter.data.clear()
+        characterListAdapter.notifyDataSetChanged()
+    }
+
 }

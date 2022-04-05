@@ -11,4 +11,8 @@ interface MarvelAPI {
     @GET("characters")
     fun getCharacters(@Query("offset") offset: String): Single<CharacterDataWrapper>
 
+    @GET("characters")
+    fun getCharactersStartWithText(
+        @Query("nameStartsWith") search: String
+    ): Single<CharacterDataWrapper>
 }

@@ -1,6 +1,6 @@
-package com.jmanrique.marvelproject.domain.model
+package com.jmanrique.marvelproject.domain.model.characters
 
-import com.jmanrique.marvelproject.data.network.model.common.Thumbnail
+import com.jmanrique.marvelproject.data.network.model.common.MarvelImage
 import com.jmanrique.marvelproject.data.network.model.common.Url
 
 data class MarvelCharacter(
@@ -10,5 +10,5 @@ data class MarvelCharacter(
     val modified: String,
     val resourceURI: String,
     val urls: List<Url>,
-    val thumbnail: Thumbnail,
+    val thumbnail: MarvelImage,
 )

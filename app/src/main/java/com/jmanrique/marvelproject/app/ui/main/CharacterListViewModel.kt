@@ -2,7 +2,7 @@ package com.jmanrique.marvelproject.app.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import com.jmanrique.marvelproject.app.ui.base.BaseViewModel
-import com.jmanrique.marvelproject.domain.model.MarvelCharacter
+import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersStartWithTextUseCase
 import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersUseCase
 import com.jmanrique.marvelproject.utils.SingleLiveEvent

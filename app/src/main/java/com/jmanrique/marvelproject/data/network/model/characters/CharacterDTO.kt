@@ -1,10 +1,9 @@
 package com.jmanrique.marvelproject.data.network.model.characters
 
 import com.google.gson.annotations.SerializedName
-import com.jmanrique.marvelproject.data.network.model.common.Thumbnail
+import com.jmanrique.marvelproject.data.network.model.common.MarvelImage
 import com.jmanrique.marvelproject.data.network.model.common.Url
-import com.jmanrique.marvelproject.domain.model.MarvelCharacter
-import java.time.LocalDateTime
+import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 
 data class CharacterDTO(
     @SerializedName("id ")
@@ -20,7 +19,7 @@ data class CharacterDTO(
     @SerializedName("urls")
     val urls: List<Url>,
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: MarvelImage,
 ) {
     fun toCharacter(): MarvelCharacter =
         MarvelCharacter(

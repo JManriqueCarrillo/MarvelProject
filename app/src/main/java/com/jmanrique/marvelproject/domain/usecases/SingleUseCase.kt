@@ -9,6 +9,6 @@ interface SingleUseCase<Params, Response> {
      *  A use case of Single would be making a network call to get a response as the response will be fetched at once.
      */
 
-    fun execute(params: Void?): Single<Response>
+    fun execute(params: Params): Single<Response>
 
 }

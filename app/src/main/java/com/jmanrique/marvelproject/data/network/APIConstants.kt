@@ -11,7 +11,7 @@ class APIConstants {
         val ts = Timestamp(System.currentTimeMillis()).time.toString()
         const val API_KEY = "f699b3a0bac92c3e5de7514188126be3"
         private const val PRIVATE_KEY = "b871da0f1f81e0b1511d7bc275c02cf5c1693820"
-        const val limit = "100"
+        const val limit = "20"
 
         fun hash(): String {
             val input = "$ts$PRIVATE_KEY$API_KEY"

@@ -17,9 +17,9 @@ data class CharacterDataContainer(
 ) {
 
     fun toMarvelCharacterContainer() =
-        this.results?.map {
+        this.results.map {
             it.toCharacter()
-        }?.let {
+        }.let {
             MarvelCharacterContainer(
                 this.total,
                 it

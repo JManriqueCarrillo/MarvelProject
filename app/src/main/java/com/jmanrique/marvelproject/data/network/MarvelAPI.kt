@@ -18,6 +18,11 @@ interface MarvelAPI {
         @Query("nameStartsWith") search: String
     ): Single<CharacterDataWrapper>
 
+    //Fetches a single character by id
+    @GET("characters/{characterId}")
+    fun getCharacterById(@Path("characterId") characterId: Int): Single<CharacterDataWrapper>
+
+    //Fetches lists of comics filtered by a character id
     @GET("characters/{characterId}/comics")
     fun getComicsByCharacterId(
         @Path("characterId") characterId: Int

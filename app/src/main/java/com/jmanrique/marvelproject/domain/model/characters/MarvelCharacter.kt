@@ -9,6 +9,6 @@ data class MarvelCharacter(
     val description: String,
     val modified: String,
     val resourceURI: String,
-    val urls: List<Url>,
+    val urlDetail: String,
     val thumbnail: MarvelImage,
 )

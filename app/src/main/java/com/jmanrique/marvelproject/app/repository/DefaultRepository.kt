@@ -1,6 +1,7 @@
 package com.jmanrique.marvelproject.app.repository
 
 import com.jmanrique.marvelproject.data.network.model.characters.CharacterDataWrapper
+import com.jmanrique.marvelproject.data.network.model.comic.ComicDataWrapper
 import com.jmanrique.marvelproject.data.network.repository.MarvelRemoteStoreImpl
 import com.jmanrique.marvelproject.domain.repository.MarvelRepository
 import io.reactivex.rxjava3.core.Single
@@ -11,6 +12,15 @@ class DefaultRepository @Inject constructor(
     private val remoteStore: MarvelRemoteStoreImpl
 ) : MarvelRepository {
 
-    override fun getCharacters(offset: Int): Single<CharacterDataWrapper> = remoteStore.getCharacters(offset)
-    override fun getCharactersStartWithText(search: String): Single<CharacterDataWrapper> = remoteStore.getCharactersStartWithText(search)
+    override fun getCharacters(offset: Int): Single<CharacterDataWrapper> =
+        remoteStore.getCharacters(offset)
+
+    override fun getCharactersStartWithText(search: String): Single<CharacterDataWrapper> =
+        remoteStore.getCharactersStartWithText(search)
+
+    override fun getCharacterById(characterId: Int): Single<CharacterDataWrapper> =
+        remoteStore.getCharacterById(characterId)
+
+    override fun getComicsByCharacterId(characterId: Int): Single<ComicDataWrapper> =
+        remoteStore.getComicsByCharacterId(characterId)
 }

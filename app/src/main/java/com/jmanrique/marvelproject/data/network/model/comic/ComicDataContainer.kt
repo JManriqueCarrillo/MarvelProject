@@ -17,9 +17,9 @@ data class ComicDataContainer(
 ) {
 
     fun toMarvelComicContainer() =
-        this.results?.map {
+        this.results.map {
             it.toComic()
-        }?.let {
+        }.let {
             MarvelComicContainer(
                 this.total,
                 it

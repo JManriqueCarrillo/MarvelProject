@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.jmanrique.marvelproject.data.network.model.common.MarvelImage
 import com.jmanrique.marvelproject.data.network.model.common.Url
 import com.jmanrique.marvelproject.domain.model.comics.MarvelComic
+import com.jmanrique.marvelproject.utils.extensions.safeValue
 
 data class ComicDTO(
     @SerializedName("id")
@@ -19,17 +20,17 @@ data class ComicDTO(
     @SerializedName("thumbnail")
     val thumbnail: MarvelImage,
     @SerializedName("images")
-    val images: List<MarvelImage>
+    val images: List<MarvelImage>?
 ) {
     fun toComic() = MarvelComic(
         id = this.id,
-        title = this.title,
-        description = this.description,
-        previewText = this.textObjects.first { it.type == "issue_preview_text" }.text,
-        urlDetail = this.urls.first { it.type == "detail" }.url,
-        urlPurchase = this.urls.first { it.type == "purchase" }.url,
+        title = this.title.safeValue(),
+        description = this.description.safeValue(),
+        previewText = this.textObjects.firstOrNull { it.type == "issue_preview_text" }?.text ?: "",
+        urlDetail = this.urls.firstOrNull { it.type == "detail" }?.url ?: "",
+        urlPurchase = this.urls.firstOrNull { it.type == "purchase" }?.url ?: "",
         thumbnail = this.thumbnail,
-        images = this.images
+        images = this.images ?: emptyList()
     )
 
 }

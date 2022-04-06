@@ -16,6 +16,7 @@ import com.jmanrique.marvelproject.app.ui.base.BaseActivity
 import com.jmanrique.marvelproject.app.ui.detail.CharacterDetailActivity
 import com.jmanrique.marvelproject.data.network.APIConstants
 import com.jmanrique.marvelproject.databinding.ActivityCharacterListBinding
+import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 import com.jmanrique.marvelproject.utils.extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -67,7 +68,7 @@ class CharacterListActivity : BaseActivity<ActivityCharacterListBinding>(), Sear
     private fun initListeners() {
         characterListAdapter.onItemClick = {
             Toast.makeText(this, "Clicked ${it.name}", Toast.LENGTH_SHORT).show()
-            navigateToCharacterDetail(it.id.toString())
+            navigateToCharacterDetail(it)
         }
 
         binding.characterList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -84,9 +85,10 @@ class CharacterListActivity : BaseActivity<ActivityCharacterListBinding>(), Sear
         })
     }
 
-    fun navigateToCharacterDetail(characterId: String) {
+    private fun navigateToCharacterDetail(item: MarvelCharacter) {
         var intent = Intent(this, CharacterDetailActivity::class.java)
-        intent.putExtra("characterID", characterId)
+        intent.putExtra("characterName", item.name)
+        intent.putExtra("characterID", item.id)
         startActivity(intent)
     }
 

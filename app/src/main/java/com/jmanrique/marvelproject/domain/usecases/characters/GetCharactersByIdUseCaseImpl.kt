@@ -5,11 +5,11 @@ import com.jmanrique.marvelproject.domain.repository.MarvelRepository
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class GetCharactersStartWithTextUseCaseImpl @Inject constructor(
+class GetCharactersByIdUseCaseImpl @Inject constructor(
     private val marvelRepository: MarvelRepository
-) : GetCharactersStartWithTextUseCase {
-    override fun execute(params: String): Single<MarvelCharacterContainer> {
-        return marvelRepository.getCharactersStartWithText(params).map { wrapper ->
+) : GetCharactersByIdUseCase {
+    override fun execute(params: Int): Single<MarvelCharacterContainer> {
+        return marvelRepository.getCharacterById(params).map { wrapper ->
             wrapper.data.toMarvelCharacterContainer()
         }
     }

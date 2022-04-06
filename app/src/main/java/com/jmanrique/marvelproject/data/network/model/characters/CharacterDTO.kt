@@ -1,13 +1,13 @@
 package com.jmanrique.marvelproject.data.network.model.characters
 
 import com.google.gson.annotations.SerializedName
-import com.jmanrique.marvelproject.data.network.model.common.Thumbnail
+import com.jmanrique.marvelproject.data.network.model.common.MarvelImage
 import com.jmanrique.marvelproject.data.network.model.common.Url
-import com.jmanrique.marvelproject.domain.model.MarvelCharacter
-import java.time.LocalDateTime
+import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
+import com.jmanrique.marvelproject.utils.extensions.safeValue
 
 data class CharacterDTO(
-    @SerializedName("id ")
+    @SerializedName("id")
     val id: Int,
     @SerializedName("name")
     val name: String,
@@ -20,16 +20,16 @@ data class CharacterDTO(
     @SerializedName("urls")
     val urls: List<Url>,
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: MarvelImage,
 ) {
     fun toCharacter(): MarvelCharacter =
         MarvelCharacter(
-            this.id,
-            this.name,
-            this.description,
-            this.modified,
-            this.resourceURI,
-            this.urls,
-            this.thumbnail
+            id = this.id,
+            name = this.name.safeValue(),
+            description = this.description.safeValue(),
+            modified = this.modified.safeValue(),
+            resourceURI = this.resourceURI.safeValue(),
+            urlDetail = this.urls.firstOrNull { it.type == "detail" }?.url ?: "",
+            thumbnail = this.thumbnail
         )
 }

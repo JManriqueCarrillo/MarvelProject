@@ -1,9 +1,8 @@
 package com.jmanrique.marvelproject.app.di
 
-import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersStartWithTextUseCase
-import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersStartWithTextUseCaseImpl
-import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersUseCase
-import com.jmanrique.marvelproject.domain.usecases.characters.GetCharactersUseCaseImpl
+import com.jmanrique.marvelproject.domain.usecases.characters.*
+import com.jmanrique.marvelproject.domain.usecases.comics.GetComicsByCharacterIIdUseCaseImpl
+import com.jmanrique.marvelproject.domain.usecases.comics.GetComicsByCharacterIdUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +22,13 @@ class UseCaseModule {
     fun providesGetCharacterStartWithTextUseCase(impl: GetCharactersStartWithTextUseCaseImpl): GetCharactersStartWithTextUseCase =
         impl
 
+    @Singleton
+    @Provides
+    fun providesGetCharacterByIdUseCase(impl: GetCharactersByIdUseCaseImpl): GetCharactersByIdUseCase =
+        impl
+
+    @Singleton
+    @Provides
+    fun providesGetComicsByCharacterIdUseCase(impl: GetComicsByCharacterIIdUseCaseImpl): GetComicsByCharacterIdUseCase =
+        impl
 }

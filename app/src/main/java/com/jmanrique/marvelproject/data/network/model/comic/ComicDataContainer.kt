@@ -1,9 +1,9 @@
-package com.jmanrique.marvelproject.data.network.model.characters
+package com.jmanrique.marvelproject.data.network.model.comic
 
 import com.google.gson.annotations.SerializedName
-import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacterContainer
+import com.jmanrique.marvelproject.domain.model.comics.MarvelComicContainer
 
-data class CharacterDataContainer(
+data class ComicDataContainer(
     @SerializedName("offset")
     val offset: Int, //The requested offset (number of skipped results) of the call
     @SerializedName("limit")
@@ -13,14 +13,14 @@ data class CharacterDataContainer(
     @SerializedName("count")
     val count: Int, //The total number of results returned by this call
     @SerializedName("results")
-    val results: List<CharacterDTO> //The list of characters returned by the call
+    val results: List<ComicDTO> //The list of comics returned by the call
 ) {
 
-    fun toMarvelCharacterContainer() =
+    fun toMarvelComicContainer() =
         this.results.map {
-            it.toCharacter()
+            it.toComic()
         }.let {
-            MarvelCharacterContainer(
+            MarvelComicContainer(
                 this.total,
                 it
             )

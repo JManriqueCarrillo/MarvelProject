@@ -1,7 +1,9 @@
 package com.jmanrique.marvelproject.app.ui.detail
 
 import android.content.Context
+import android.opengl.Visibility
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jmanrique.marvelproject.R
@@ -41,8 +43,18 @@ class CharacterDetailComicsListAdapter @Inject constructor(private val context: 
         fun bind(comic: MarvelComic) {
             binding.apply {
                 comic.also {
-                    binding.comicDetailsBtn.setOnClickListener { onDetailItemClick?.invoke(comic.urlDetail) }
-                    binding.comicBuyBtn.setOnClickListener { onPurchaseItemClick?.invoke(comic.urlPurchase) }
+                    if (comic.urlDetail.isEmpty()) binding.comicDetailsBtn.isEnabled = false
+                    else {
+                        binding.comicDetailsBtn.isEnabled = true
+                        binding.comicDetailsBtn.setOnClickListener { onDetailItemClick?.invoke(comic.urlDetail) }
+                    }
+
+                    if (comic.urlPurchase.isEmpty()) binding.comicBuyBtn.isEnabled = false
+                    else {
+                        binding.comicBuyBtn.isEnabled = true
+                        binding.comicBuyBtn.setOnClickListener { onPurchaseItemClick?.invoke(comic.urlPurchase) }
+                    }
+
                     binding.comicImage.loadUrl(
                         "${it.thumbnail.path}/portrait_fantastic.${it.thumbnail.extension}",
                         R.drawable.portrait_xlarge

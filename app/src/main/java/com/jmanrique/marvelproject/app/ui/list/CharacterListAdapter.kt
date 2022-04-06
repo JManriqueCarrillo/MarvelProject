@@ -1,4 +1,4 @@
-package com.jmanrique.marvelproject.app.ui.main
+package com.jmanrique.marvelproject.app.ui.list
 
 import android.content.Context
 import android.view.LayoutInflater

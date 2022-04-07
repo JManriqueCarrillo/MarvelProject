@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/characterListFragment">
+
+    <fragment
+        android:id="@+id/characterListFragment"
+        android:name="com.jmanrique.marvelproject.app.ui.list.CharacterListFragment"
+        android:label="CharacterListFragment">
+        <action
+            android:id="@+id/action_list_to_detail"
+            app:destination="@id/characterDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.jmanrique.marvelproject.app.ui.detail.CharacterDetailFragment"
+        android:label="CharacterDetailFragment"/>
+</navigation>

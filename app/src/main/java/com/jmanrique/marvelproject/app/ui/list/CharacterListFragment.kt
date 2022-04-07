@@ -111,7 +111,7 @@ class CharacterListFragment : BaseFragment<FragmentCharacterListBinding>(),
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search, menu)
-        val search = menu?.findItem(R.id.menuSearch)
+        val search = menu.findItem(R.id.menuSearch)
         val searchView = search?.actionView as androidx.appcompat.widget.SearchView
         searchView.isSubmitButtonEnabled = true
         searchView.setOnQueryTextListener(this)

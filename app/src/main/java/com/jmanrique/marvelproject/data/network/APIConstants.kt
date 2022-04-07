@@ -1,6 +1,5 @@
 package com.jmanrique.marvelproject.data.network
 
-import com.jmanrique.marvelproject.app.di.NetworkModule
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp

@@ -1,7 +1,6 @@
 package com.jmanrique.marvelproject.domain.model.characters
 
 import com.jmanrique.marvelproject.data.network.model.common.MarvelImage
-import com.jmanrique.marvelproject.data.network.model.common.Url
 
 data class MarvelCharacter(
     val id: Int,

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProvider
-import javax.inject.Inject
 
 abstract class BaseActivity<DB> : AppCompatActivity() where DB : ViewDataBinding {
 
@@ -22,6 +20,10 @@ abstract class BaseActivity<DB> : AppCompatActivity() where DB : ViewDataBinding
 
     abstract fun inflate(layoutInflater: LayoutInflater): DB
 
-    open fun bindViewToModel(){}
+    open fun bindViewToModel(){
+        /**
+         * Bind view components to model provider (ViewModel itself / LiveData) via binding (view is not created)
+         */
+    }
 
 }

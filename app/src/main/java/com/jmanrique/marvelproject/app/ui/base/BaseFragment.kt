@@ -24,11 +24,10 @@ abstract class BaseFragment<DB>: Fragment() where DB: ViewDataBinding {
 
     abstract fun inflateBinding(layoutInflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): DB
 
-    /**
-     * Bind view components to model provider (ViewModel itself / LiveData) via binding (view is not created)
-     */
     open fun bindViewToModel() {
-
+        /**
+         * Bind view components to model provider (ViewModel itself / LiveData) via binding (view is not created)
+         */
     }
 
 }

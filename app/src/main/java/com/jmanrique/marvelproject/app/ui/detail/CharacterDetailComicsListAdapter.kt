@@ -1,15 +1,11 @@
 package com.jmanrique.marvelproject.app.ui.detail
 
 import android.content.Context
-import android.opengl.Visibility
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jmanrique.marvelproject.R
-import com.jmanrique.marvelproject.databinding.ItemCharacterListBinding
 import com.jmanrique.marvelproject.databinding.ItemComicListBinding
-import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 import com.jmanrique.marvelproject.domain.model.comics.MarvelComic
 import com.jmanrique.marvelproject.utils.extensions.loadUrl
 import javax.inject.Inject

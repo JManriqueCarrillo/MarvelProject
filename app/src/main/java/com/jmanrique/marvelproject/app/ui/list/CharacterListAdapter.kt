@@ -39,7 +39,7 @@ class CharacterListAdapter @Inject constructor(private val context: Context) :
             binding.apply {
                 character.also {
                     binding.characterListAvatar.loadUrl(
-                        "${it.thumbnail?.path}/standard_large.${it.thumbnail?.extension}",
+                        "${it.thumbnail.path}/standard_large.${it.thumbnail.extension}",
                         R.drawable.portrait_xlarge
                     )
                     binding.characterListName.text = it.name

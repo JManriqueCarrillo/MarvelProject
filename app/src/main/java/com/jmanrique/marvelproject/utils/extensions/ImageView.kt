@@ -1,6 +1,5 @@
 package com.jmanrique.marvelproject.utils.extensions
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 

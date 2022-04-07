@@ -61,8 +61,6 @@ class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>() {
 
         (activity as MainActivity).supportActionBar?.apply {
             title = characterName
-            setDisplayHomeAsUpEnabled(true)
-            setHasOptionsMenu(true)
         }
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -74,15 +72,6 @@ class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>() {
         comicsListAdapter.onPurchaseItemClick = {
             goToUrl(it)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        if (id == android.R.id.home) {
-            navController.navigate(R.id.characterListFragment)
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun initObservers() {

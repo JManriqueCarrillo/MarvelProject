@@ -1,18 +1,15 @@
 package com.jmanrique.marvelproject.app.ui.list
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jmanrique.marvelproject.R
 import com.jmanrique.marvelproject.app.ui.base.BaseFragment
-import com.jmanrique.marvelproject.app.ui.detail.CharacterDetailActivity
 import com.jmanrique.marvelproject.app.ui.main.MainActivity
 import com.jmanrique.marvelproject.data.network.APIConstants
 import com.jmanrique.marvelproject.databinding.FragmentCharacterListBinding
@@ -22,7 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CharacterListFragment: BaseFragment<FragmentCharacterListBinding>(), SearchView.OnQueryTextListener {
+class CharacterListFragment : BaseFragment<FragmentCharacterListBinding>(),
+    SearchView.OnQueryTextListener {
 
     val OFFSET_VALUE = APIConstants.limit.toInt()
     val viewModel: CharacterListViewModel by viewModels()
@@ -30,7 +28,7 @@ class CharacterListFragment: BaseFragment<FragmentCharacterListBinding>(), Searc
     @Inject
     lateinit var characterListAdapter: CharacterListAdapter
 
-    private val layoutManager = GridLayoutManager(context, 2)
+    lateinit var layoutManager: LinearLayoutManager
     private var flagLoading = false
     private var flagScrollListener = true
 
@@ -40,7 +38,8 @@ class CharacterListFragment: BaseFragment<FragmentCharacterListBinding>(), Searc
         layoutInflater: LayoutInflater,
         container: ViewGroup?,
         attachToRoot: Boolean
-    ): FragmentCharacterListBinding = FragmentCharacterListBinding.inflate(layoutInflater, container, attachToRoot)
+    ): FragmentCharacterListBinding =
+        FragmentCharacterListBinding.inflate(layoutInflater, container, attachToRoot)
 
 
     override fun bindViewToModel() {
@@ -52,17 +51,17 @@ class CharacterListFragment: BaseFragment<FragmentCharacterListBinding>(), Searc
         initViews()
         initObservers()
         initListeners()
-        callAPI()
+        restartList()
     }
 
     private fun initViews() {
 
         (activity as MainActivity).supportActionBar?.apply {
             title = getString(R.string.app_name)
-            setDisplayHomeAsUpEnabled(true)
             setHasOptionsMenu(true)
         }
 
+        layoutManager = GridLayoutManager(context, 2)
         binding.characterList.layoutManager = layoutManager
         binding.characterList.adapter = characterListAdapter
     }

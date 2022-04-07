@@ -111,9 +111,13 @@ dependencies {
 
     //Views
     implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.0-alpha04'
+
+
+    //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.0-alpha03"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.0-alpha03"
-    implementation 'androidx.fragment:fragment-ktx:1.5.0-alpha04'
+//    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-alpha03"
 
     //Dependency Injection
     implementation 'com.google.dagger:hilt-android:2.39.1'

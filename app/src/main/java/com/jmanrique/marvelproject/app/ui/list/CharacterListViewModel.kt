@@ -1,4 +1,4 @@
-package com.jmanrique.marvelproject.app.ui.main
+package com.jmanrique.marvelproject.app.ui.list
 
 import androidx.lifecycle.MutableLiveData
 import com.jmanrique.marvelproject.app.ui.base.BaseViewModel

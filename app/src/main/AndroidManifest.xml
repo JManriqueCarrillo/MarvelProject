@@ -14,8 +14,9 @@
         android:largeHeap="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MarvelProject">
+<!--        android:name=".app.ui.list.CharacterListActivity"-->
         <activity
-            android:name=".app.ui.main.CharacterListActivity"
+            android:name=".app.ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

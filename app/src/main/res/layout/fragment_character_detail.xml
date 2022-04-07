@@ -45,7 +45,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="220dp"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/accessibility_character_image" />
                 </androidx.cardview.widget.CardView>
 
 

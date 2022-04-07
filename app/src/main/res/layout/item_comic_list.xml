@@ -12,7 +12,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/portrait_xlarge" />
+        tools:src="@drawable/portrait_xlarge"
+        android:contentDescription="@string/accessibility_comic_image" />
 
     <Button
         style="@style/Widget.AppCompat.Button.Colored"

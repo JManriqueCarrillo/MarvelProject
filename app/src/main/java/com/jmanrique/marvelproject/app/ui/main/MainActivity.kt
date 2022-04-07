@@ -1,9 +1,7 @@
 package com.jmanrique.marvelproject.app.ui.main
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.jmanrique.marvelproject.R
 import dagger.hilt.android.AndroidEntryPoint
 

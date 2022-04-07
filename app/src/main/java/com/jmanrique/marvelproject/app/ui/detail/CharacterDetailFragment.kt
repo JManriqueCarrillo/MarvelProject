@@ -3,13 +3,15 @@ package com.jmanrique.marvelproject.app.ui.detail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import androidx.activity.viewModels
+import android.view.*
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jmanrique.marvelproject.R
-import com.jmanrique.marvelproject.app.ui.base.BaseActivity
-import com.jmanrique.marvelproject.databinding.ActivityCharacterDetailBinding
+import com.jmanrique.marvelproject.app.ui.base.BaseFragment
+import com.jmanrique.marvelproject.app.ui.main.MainActivity
+import com.jmanrique.marvelproject.databinding.FragmentCharacterDetailBinding
 import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 import com.jmanrique.marvelproject.domain.model.comics.MarvelComic
 import com.jmanrique.marvelproject.utils.extensions.loadUrl
@@ -17,23 +19,30 @@ import com.jmanrique.marvelproject.utils.extensions.safeValue
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
-class CharacterDetailActivity : BaseActivity<ActivityCharacterDetailBinding>() {
+class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>() {
 
-    private val viewModel: CharacterDetailViewModel by viewModels()
-    private var characterName: String = ""
-    private var characterID: Int = 0
+    val viewModel: CharacterDetailViewModel by viewModels()
+    private var characterName: String = "Thanos"
+    private var characterID: Int = 1009652
+    lateinit var navController: NavController
 
     @Inject
     lateinit var comicsListAdapter: CharacterDetailComicsListAdapter
+
+    override fun inflateBinding(
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToRoot: Boolean
+    ): FragmentCharacterDetailBinding =
+        FragmentCharacterDetailBinding.inflate(layoutInflater, container, attachToRoot)
 
     override fun bindViewToModel() {
         binding.viewModel = viewModel
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getBundleExtras()
         initViews()
         initObservers()
@@ -42,19 +51,19 @@ class CharacterDetailActivity : BaseActivity<ActivityCharacterDetailBinding>() {
     }
 
     private fun getBundleExtras() {
-        characterName = intent.extras.let{ intent.extras!!.getString("characterName").safeValue()}
-        characterID = intent.extras.let { intent.extras!!.getInt("characterID") }
+        characterName = arguments?.getString("characterName").safeValue()
+        characterID = arguments?.getInt("characterID") ?: 0
     }
 
     private fun initViews() {
 
-        supportActionBar?.apply {
+        navController = view?.let { Navigation.findNavController(it) }!!
+
+        (activity as MainActivity).supportActionBar?.apply {
             title = characterName
-            setDisplayShowHomeEnabled(true);
-            setDisplayHomeAsUpEnabled(true);
         }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.characterDetailComicsList.layoutManager = layoutManager
         binding.characterDetailComicsList.adapter = comicsListAdapter
         comicsListAdapter.onDetailItemClick = {
@@ -66,11 +75,11 @@ class CharacterDetailActivity : BaseActivity<ActivityCharacterDetailBinding>() {
     }
 
     private fun initObservers() {
-        viewModel.characterData.observe(this) {
+        viewModel.characterData.observe(viewLifecycleOwner) {
             fillCharacterData(it)
         }
 
-        viewModel.comicsData.observe(this) {
+        viewModel.comicsData.observe(viewLifecycleOwner) {
             fillComicsData(it)
         }
     }
@@ -105,14 +114,5 @@ class CharacterDetailActivity : BaseActivity<ActivityCharacterDetailBinding>() {
         startActivity(browserIntent)
     }
 
-    override fun inflate(layoutInflater: LayoutInflater): ActivityCharacterDetailBinding =
-        ActivityCharacterDetailBinding.inflate(layoutInflater)
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-           android.R.id.home -> onBackPressed()
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
 }

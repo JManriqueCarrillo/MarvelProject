@@ -1,60 +1,73 @@
-package com.jmanrique.marvelproject.app.ui.main
+package com.jmanrique.marvelproject.app.ui.list
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.widget.Toast
-import androidx.activity.viewModels
+import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.NavController
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jmanrique.marvelproject.R
-import com.jmanrique.marvelproject.app.ui.base.BaseActivity
-import com.jmanrique.marvelproject.app.ui.detail.CharacterDetailActivity
+import com.jmanrique.marvelproject.app.ui.base.BaseFragment
+import com.jmanrique.marvelproject.app.ui.main.MainActivity
 import com.jmanrique.marvelproject.data.network.APIConstants
-import com.jmanrique.marvelproject.databinding.ActivityCharacterListBinding
+import com.jmanrique.marvelproject.databinding.FragmentCharacterListBinding
 import com.jmanrique.marvelproject.domain.model.characters.MarvelCharacter
 import com.jmanrique.marvelproject.utils.extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CharacterListActivity : BaseActivity<ActivityCharacterListBinding>(), SearchView.OnQueryTextListener {
+class CharacterListFragment : BaseFragment<FragmentCharacterListBinding>(),
+    SearchView.OnQueryTextListener {
 
     val OFFSET_VALUE = APIConstants.limit.toInt()
-    private val viewModel: CharacterListViewModel by viewModels()
+    val viewModel: CharacterListViewModel by viewModels()
 
     @Inject
     lateinit var characterListAdapter: CharacterListAdapter
 
-    private val layoutManager = GridLayoutManager(this, 2)
+    lateinit var layoutManager: LinearLayoutManager
     private var flagLoading = false
     private var flagScrollListener = true
 
     private lateinit var searchTerm: String
 
+    override fun inflateBinding(
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToRoot: Boolean
+    ): FragmentCharacterListBinding =
+        FragmentCharacterListBinding.inflate(layoutInflater, container, attachToRoot)
+
+
     override fun bindViewToModel() {
         binding.viewModel = viewModel
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
         initListeners()
-        callAPI()
+        restartList()
     }
 
     private fun initViews() {
+
+        (activity as MainActivity).supportActionBar?.apply {
+            title = getString(R.string.app_name)
+            setHasOptionsMenu(true)
+        }
+
+        layoutManager = GridLayoutManager(context, 2)
         binding.characterList.layoutManager = layoutManager
         binding.characterList.adapter = characterListAdapter
     }
 
     private fun initObservers() {
-        viewModel.characterList.observe(this) {
+        viewModel.characterList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 flagScrollListener = false
             } else {
@@ -67,7 +80,6 @@ class CharacterListActivity : BaseActivity<ActivityCharacterListBinding>(), Sear
 
     private fun initListeners() {
         characterListAdapter.onItemClick = {
-            Toast.makeText(this, "Clicked ${it.name}", Toast.LENGTH_SHORT).show()
             navigateToCharacterDetail(it)
         }
 
@@ -86,27 +98,25 @@ class CharacterListActivity : BaseActivity<ActivityCharacterListBinding>(), Sear
     }
 
     private fun navigateToCharacterDetail(item: MarvelCharacter) {
-        var intent = Intent(this, CharacterDetailActivity::class.java)
-        intent.putExtra("characterName", item.name)
-        intent.putExtra("characterID", item.id)
-        startActivity(intent)
+        val navController = view?.let { Navigation.findNavController(it) }
+        val bundle = Bundle()
+        bundle.putString("characterName", item.name)
+        bundle.putInt("characterID", item.id)
+        navController?.navigate(R.id.action_list_to_detail, bundle)
     }
 
     private fun callAPI() {
         viewModel.getCharactersList()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
         val search = menu?.findItem(R.id.menuSearch)
         val searchView = search?.actionView as androidx.appcompat.widget.SearchView
         searchView.isSubmitButtonEnabled = true
         searchView.setOnQueryTextListener(this)
-        return true
+        super.onCreateOptionsMenu(menu, inflater)
     }
-
-    override fun inflate(layoutInflater: LayoutInflater): ActivityCharacterListBinding =
-        ActivityCharacterListBinding.inflate(layoutInflater)
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         hideKeyboard()
